@@ -148,7 +148,9 @@
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-datasource-nacos</artifactId>
+            <!--  启用 nacos 数据源，存放配置信息、流控信息
             <scope>test</scope>
+            -->
         </dependency>
         <!-- for Apollo rule publisher sample -->
         <dependency>
