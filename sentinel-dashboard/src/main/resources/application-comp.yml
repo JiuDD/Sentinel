@@ -40,4 +40,11 @@ logging:
   level:
     root: info
 
+#sentinel的nacos数据源，用于持久化流控、降级等配置数据
+sentinel:
+  nacos:
+    serverAddr: 127.0.0.1:8848
+    namespace:
+    group-id: DEFAULT_GROUP
+
 
