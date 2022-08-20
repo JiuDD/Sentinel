@@ -1,0 +1,53 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://10.188.6.136:3306/sentinel_test?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC&allowMultiQueries=true
+    username: apiuser
+    password: Vz57$UXZw&9S
+    druid:
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+      minIdle: 5
+      useGlobalDataSourceStat: true
+      validationQuery: SELECT 1 FROM DUAL
+      initialSize: 5
+      maxWait: 60000
+      filters: stat,slf4j
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+      testWhileIdle: true
+      testOnBorrow: true
+      minEvictableIdleTimeMillis: 30000
+      maxEvictableIdleTimeMillis: 60000
+      timeBetweenEvictionRunsMillis: 20000
+      testOnReturn: false
+      maxActive: 10
+      #批插
+      filter:
+        wall:
+          config:
+            multi-statement-allow: true
+  # spring data jpa
+  jpa:
+    hibernate:
+      ddl-auto: none
+      use-new-id-generator-mappings: false
+    database-platform: org.hibernate.dialect.MySQLDialect
+    #调试时可打开 SQL 日志
+    show-sql: false
+    #应用启动时，不检查数据库连接
+    open-in-view: false
+
+
+logging:
+  level:
+    root: info
+
+#sentinel的nacos数据源，用于持久化流控、降级等配置数据
+sentinel:
+  nacos:
+    #serverAddr: 127.0.0.1:8848
+    serverAddr: 10.188.7.238:8848
+    namespace: 2e6fc7c4-bee2-4acf-aa0d-a799e93d455e
+    group-id: DEFAULT_GROUP
+
