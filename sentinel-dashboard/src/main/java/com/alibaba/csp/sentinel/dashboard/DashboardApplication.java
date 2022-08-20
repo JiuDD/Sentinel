@@ -19,12 +19,14 @@ import com.alibaba.csp.sentinel.init.InitExecutor;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * Sentinel dashboard application.
  *
  * @author Carpenter Lee
  */
+@EnableScheduling//用于定时汇总api访问记录，秒级汇总为 时，天
 @SpringBootApplication
 public class DashboardApplication {
 
