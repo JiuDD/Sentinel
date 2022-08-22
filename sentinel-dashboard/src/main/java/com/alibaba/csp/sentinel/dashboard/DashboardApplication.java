@@ -21,6 +21,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.util.TimeZone;
+
 /**
  * Sentinel dashboard application.
  *
@@ -31,6 +33,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class DashboardApplication {
 
     public static void main(String[] args) {
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
         triggerSentinelInit();
         SpringApplication.run(DashboardApplication.class, args);
     }
