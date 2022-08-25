@@ -16,6 +16,7 @@
 package com.alibaba.csp.sentinel.dashboard.metric;
 
 import java.net.ConnectException;
+import java.net.NoRouteToHostException;
 import java.net.SocketTimeoutException;
 import java.nio.charset.Charset;
 import java.util.Date;
@@ -59,6 +60,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -81,6 +83,7 @@ public class MetricFetcher {
     private Map<String, AtomicLong> appLastFetchTime = new ConcurrentHashMap<>();
 
     @Autowired
+    @Qualifier("mysqlMetricsRepository")
     private MetricsRepository<MetricEntity> metricStore;
     @Autowired
     private AppManagement appManagement;
@@ -121,6 +124,8 @@ public class MetricFetcher {
             .setDefaultIOReactorConfig(ioConfig)
             .build();
         httpclient.start();
+        //从这里拿到的 appManagement 为空，原因未知
+        //logger.warn("all apps: {}", appManagement.getAppNames());
         start();
     }
 
@@ -230,10 +235,15 @@ public class MetricFetcher {
                     fail.incrementAndGet();
                     httpGet.abort();
                     if (ex instanceof SocketTimeoutException) {
-                        logger.error("Failed to fetch metric from <{}>: socket timeout", url);
+                        logger.error("Failed to fetch metric from <{}>: socket timeout, app={}, url={}", app, url);
                     } else if (ex instanceof ConnectException) {
-                        logger.error("Failed to fetch metric from <{}> (ConnectionException: {})", url, ex.getMessage());
+                        logger.error("Failed to fetch metric from <{}> (ConnectionException: {}, url={})", app, ex.getMessage(), url);
+                    } else if (ex instanceof NoRouteToHostException) {
+                        //logger.error("app={}, Failed to fetch metric from <{}> (NoRouteToHostException: {})", app, ex.getMessage());
+                        //logger.error("url={}, Failed to fetch metric from <{}> (NoRouteToHostException: {})", url, ex.getMessage());
+                        //错误的url示例：http://10.112.2.110:8722/metric?startTime=1660646594000&endTime=1660646600000&refetch=false，这是个浮动ip，这个ip已经不存在了
                     } else {
+                        //生产环境打印日志：fetch metric http://10.112.2.110:8721/metric?startTime=1660552817000&endTime=1660552823000&refetch=false error
                         logger.error(msg + " metric " + url + " error", ex);
                     }
                 }

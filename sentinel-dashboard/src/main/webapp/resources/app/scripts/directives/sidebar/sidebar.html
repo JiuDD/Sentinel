@@ -54,7 +54,9 @@
           </li>
 
           <li ui-sref-active="active" ng-if="!entry.isGateway">
-            <a ui-sref="dashboard.flowV1({app: entry.app})">
+            <!--<a ui-sref="dashboard.flowV1({app: entry.app})">-->
+            <!--使用 v2包下面的 FlowControllerV2，这个类可以把流控数据写入其它数据源，如nacos-->
+            <a ui-sref="dashboard.flow({app: entry.app})">
               <i class="glyphicon glyphicon-filter"></i>&nbsp;&nbsp;流控规则</a>
           </li>
 

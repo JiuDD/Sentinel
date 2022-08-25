@@ -59,10 +59,18 @@ public class FlowControllerV2 {
     private InMemoryRuleRepositoryAdapter<FlowRuleEntity> repository;
 
     @Autowired
+    /*
     @Qualifier("flowRuleDefaultProvider")
+     */
+    //替换为自定义的 nacos 数据源。 动态规则的拉取，从指定的数据源里面获取数据并回显在Sentinel控制台上
+    @Qualifier("flowRuleNacosProvider")
     private DynamicRuleProvider<List<FlowRuleEntity>> ruleProvider;
     @Autowired
+    /*
     @Qualifier("flowRuleDefaultPublisher")
+     */
+    //替换为自定义的 nacos 数据源。 动态规则的发布，将Sentinel控制台上操作的数据，同步到指定的数据源上
+    @Qualifier("flowRuleNacosPublisher")
     private DynamicRulePublisher<List<FlowRuleEntity>> rulePublisher;
 
     @GetMapping("/rules")

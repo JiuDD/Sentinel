@@ -388,6 +388,31 @@
                 </repository>
             </distributionManagement>
         </profile>
+
+        <profile>
+            <id>test</id>
+            <properties>
+                <build.id>test</build.id>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <build.id>prod</build.id>
+            </properties>
+        </profile>
+        <profile>
+            <id>comp</id>
+            <properties>
+                <build.id>comp</build.id>
+            </properties>
+        </profile>
+        <profile>
+            <id>home</id>
+            <properties>
+                <build.id>home</build.id>
+            </properties>
+        </profile>
     </profiles>
 
 </project>
