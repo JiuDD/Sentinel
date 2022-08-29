@@ -39,7 +39,7 @@ public class FlowRuleNacosProvider implements DynamicRuleProvider<List<FlowRuleE
         String dataId = new StringBuilder(appName).append(NacosConstants.DATA_ID_POSTFIX).toString();
         //这里的参数不需要指定namespace，因为 构造ConfigService实例时，是基于namespace的，参考：com.alibaba.csp.sentinel.dashboard.rule.config.NacosConfiguration.nacosConfigService
         String rules = configService.getConfig(dataId, nacosProperties.getGroupId(), 3000);
-        logger.info("pull FlowRule from Nacos Config Center: {}", rules);
+        logger.info("pull FlowRule from Nacos Config Center, appName= {}, dataId= {}, rules from nacos= {}", appName, dataId, rules);
         if (StringUtils.isEmpty(rules)) {
             return new ArrayList<>();
         }

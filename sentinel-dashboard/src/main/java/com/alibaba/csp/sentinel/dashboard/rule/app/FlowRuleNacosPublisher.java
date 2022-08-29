@@ -40,6 +40,7 @@ public class FlowRuleNacosPublisher implements DynamicRulePublisher<List<FlowRul
         // 示例：spring.cloud.sentinel.datasource -nacos.data-id: find-api-sentinel-flow  (参考find_alibaba项目的find-api模块的配置)
         String dataId = new StringBuilder(appName).append(NacosConstants.DATA_ID_POSTFIX).toString();
         String convert = converter.convert(rules);
+        logger.info("Publish rules to nacos. appName= {}, dataId={}, rules before convert= {}, after converted= {}", appName, dataId, rules, convert);
         //这里的参数不需要指定namespace，因为 构造ConfigService实例时，是基于namespace的，参考：com.alibaba.csp.sentinel.dashboard.rule.config.NacosConfiguration.nacosConfigService
         configService.publishConfig(dataId, nacosProperties.getGroupId(), convert);
     }
