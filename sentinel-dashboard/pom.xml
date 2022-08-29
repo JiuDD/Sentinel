@@ -19,6 +19,51 @@
     </properties>
 
     <dependencies>
+        <!--日志 持久化到 influxdb -->
+        <!--<dependency>
+            <groupId>org.influxdb</groupId>
+            <artifactId>influxdb-java</artifactId>
+            <version>2.15</version>
+        </dependency>-->
+        <!--<dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.1.12</version>
+        </dependency>-->
+        <!--日志 持久化到 influxdb -->
+
+
+
+        <!--日志 持久化到 MySQL 不要问我为什么既要jpa，还要mybatis--><!--<version>2.1.4</version>-->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.47</version>
+        </dependency>
+        <!--<dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>1.2.2</version>
+        </dependency>-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.1.12</version>
+        </dependency>
+        <!--日志 持久化到 MySQL -->
+
+
+
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-core</artifactId>
@@ -101,7 +146,9 @@
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-datasource-nacos</artifactId>
+            <!--  启用 nacos 数据源，存放配置信息、流控信息
             <scope>test</scope>
+            -->
         </dependency>
         <!-- for Apollo rule publisher sample -->
         <dependency>
@@ -193,6 +240,56 @@
                     <exclude>resources/node_modules/**</exclude>
                 </excludes>
             </resource>
+
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <!--把pom里配置的值，赋值到yml等类型的配置文件里面。如：${mysql.user}-->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.yaml</include>
+                    <include>**/*.yml</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.factories</include>
+                    <include>**/*.json</include>
+                    <include>**/*.html</include>
+                </includes>
+            </resource>
         </resources>
     </build>
+
+    <profiles>
+        <profile>
+            <id>test</id>
+            <properties>
+                <build.id>test</build.id>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <build.id>prod</build.id>
+            </properties>
+        </profile>
+        <profile>
+            <id>comp</id>
+            <properties>
+                <build.id>comp</build.id>
+            </properties>
+        </profile>
+        <profile>
+            <id>home</id>
+            <properties>
+                <build.id>home</build.id>
+            </properties>
+        </profile>
+    </profiles>
 </project>
